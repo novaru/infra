@@ -1,0 +1,57 @@
+services:
+  forgejo-db:
+    image: postgres:16
+    container_name: forgejo-db
+    ports:
+      - "127.0.0.1:5435:5432"
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=forgejo
+      - POSTGRES_PASSWORD=${FORGEJO_DB_PASSWORD}
+      - POSTGRES_DB=forgejo
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U forgejo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 250M
+
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:16
+    container_name: forgejo
+    restart: unless-stopped
+    depends_on:
+      forgejo-db:
+        condition: service_healthy
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - FORGEJO__database__DB_TYPE=postgres
+      - FORGEJO__database__HOST=forgejo-db:5432
+      - FORGEJO__database__NAME=forgejo
+      - FORGEJO__database__USER=forgejo
+      - FORGEJO__database__PASSWD=${FORGEJO_DB_PASSWORD}
+      - FORGEJO__server__DOMAIN=git.novaru.cc
+      - FORGEJO__server__ROOT_URL=https://git.novaru.cc/
+      - FORGEJO__server__SSH_DOMAIN=git.novaru.cc
+      - FORGEJO__server__SSH_PORT=2222
+      - FORGEJO__service__DISABLE_REGISTRATION=true
+      - FORGEJO__service__LANDING_PAGE=explore
+    volumes:
+      - ./forgejo-data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "127.0.0.1:3003:3000"
+      - "2222:22"
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+
+volumes: {}

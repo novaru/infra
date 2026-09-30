@@ -1,0 +1,40 @@
+services:
+  woodpecker-server:
+    image: woodpeckerci/woodpecker-server:v3
+    container_name: woodpecker-server
+    restart: unless-stopped
+    environment:
+      - WOODPECKER_OPEN=false
+      - WOODPECKER_HOST=https://ci.novaru.cc
+      - WOODPECKER_FORGEJO=true
+      - WOODPECKER_FORGEJO_URL=https://git.novaru.cc
+      - WOODPECKER_FORGEJO_CLIENT=${WOODPECKER_FORGEJO_CLIENT}
+      - WOODPECKER_FORGEJO_SECRET=${WOODPECKER_FORGEJO_SECRET}
+      - WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+      - WOODPECKER_ADMIN=${YOUR_FORGEJO_USERNAME}
+    volumes:
+      - ./data:/var/lib/woodpecker
+    ports:
+      - "127.0.0.1:3004:8000"
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+
+  woodpecker-agent:
+    image: woodpeckerci/woodpecker-agent:v3
+    container_name: woodpecker-agent
+    restart: unless-stopped
+    depends_on:
+      - woodpecker-server
+    environment:
+      - WOODPECKER_SERVER=woodpecker-server:9000
+      - WOODPECKER_AGENT_SECRET=${WOODPECKER_AGENT_SECRET}
+      - WOODPECKER_MAX_WORKFLOWS=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+          cpus: "1.0"

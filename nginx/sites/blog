@@ -1,0 +1,55 @@
+# HTTP -> HTTPS redirect
+server {
+    if ($host = www.novaru.cc) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = novaru.cc) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name ec2-15-232-116-69.ap-southeast-3.compute.amazonaws.com novaru.cc www.novaru.cc;
+    return 301 https://$host$request_uri;
+
+
+
+
+}
+
+# HTTPS server (self-signed for EC2 test hostname)
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+
+    server_name ec2-15-232-116-69.ap-southeast-3.compute.amazonaws.com novaru.cc www.novaru.cc;
+    ssl_certificate /etc/letsencrypt/live/novaru.cc/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/novaru.cc/privkey.pem; # managed by Certbot
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+    root /var/www/blog;
+    index index.html;
+
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+    gzip_min_length 1024;
+
+    location / {
+        try_files $uri $uri/ $uri.html =404;
+    }
+
+    error_page 404 /404.html;
+
+    location ~* \.(css|js|svg|ico|woff2?|ttf|eot)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+
+
+
+
+}

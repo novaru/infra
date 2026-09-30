@@ -1,0 +1,668 @@
+/* GLOBALS
+-------------------------------------------------- */
+
+:root {
+  /* Palette colors */
+  --color-gray: #928374 !important;
+  --color-red: #cc241d !important;
+  --color-orange: #d65d0e !important;
+  --color-teal: #689d6a !important;
+  --color-blue: #458588 !important;
+  --color-green: #427b58 !important;
+  --color-indigo: #458588 !important;
+  --color-purple: #b16286 !important;
+  --color-pink: #b16286 !important;
+
+  /* Palette RGB colors */
+  --rgb-color-gray: 146, 131, 116 !important;
+  --rgb-color-red: 204, 36, 29 !important;
+  --rgb-color-orange: 214, 93, 14 !important;
+  --rgb-color-teal: 104, 157, 106 !important;
+  --rgb-color-blue: 69, 133, 136 !important;
+  --rgb-color-green: 66, 123, 88 !important;
+  --rgb-color-indigo: 69, 133, 136 !important;
+  --rgb-color-purple: 177, 98, 134 !important;
+  --rgb-color-pink: 177, 98, 134 !important;
+
+  /* Light theme base colors */
+  --color-bg: #fcfcfa !important;
+  --color-text-primary: #3c3836 !important;
+  --color-text-heading: #1a1a1a !important;
+  --color-text-secondary: #928374 !important;
+  --color-block-bg: #fff !important;
+  --color-border: rgba(0, 0, 0, .1) !important;
+  --color-uptime-bar-empty-bg: #d5c4a1 !important;
+  --color-tooltip-bg: #fff !important;
+
+  /* Button: Secondary */
+  --color-btn-secondary-bg: transparent !important;
+  --color-btn-secondary-hover-bg: #ebebeb !important;
+  --color-btn-secondary-active-bg: #d7d7d7 !important;
+  --color-btn-secondary-border: rgba(0, 0, 0, .16) !important;
+
+  /* Sizing */
+  --size-container-width: 864px !important;
+  --size-edit-container-width: 1164px !important;
+  --size-logo-width: 48px !important;
+  --size-logo-height: 48px !important;
+  --size-uptime-bar-height: 24px !important;
+
+  /* Spacing */
+  --spacing-4: .25rem;
+  --spacing-8: .5rem;
+  --spacing-12: .75rem;
+  --spacing-16: 1rem;
+  --spacing-20: 1.25rem;
+  --spacing-24: 1.5rem;
+  --spacing-32: 2rem;
+
+  /* Border radius */
+  --border-radius-200: .25rem;
+  --border-radius-400: .375rem;
+  --border-radius-500: .5rem;
+
+  /* Typography */
+  --font-size-50: 0.75rem;
+  --font-size-100: .875rem;
+  --font-size-300: 1.125rem;
+  --font-size-350: 1.25rem;
+  --font-weight-medium: 500 !important;
+  --font-weight-semibold: 600 !important;
+  --font-line-height-200: var(--spacing-24);
+
+  /* Shadow */
+  --shadow-filter: rgba(0, 0, 0, .05) 0px 1px 6px 0px !important;
+}
+
+/* DARK THEME OVERRIDES
+-------------------------------------------------- */
+
+.dark {
+  /* Base colors */
+  --color-bg: #1b1b1a !important;
+  --color-text-primary: #ece7dd !important;
+  --color-text-heading: #fbf1c7 !important;
+  --color-text-secondary: #a89984 !important;
+  --color-block-bg: #282828 !important;
+  --color-border: rgba(255, 255, 255, .07) !important;
+  --color-uptime-bar-empty-bg: #3c3836 !important;
+  --color-tooltip-bg: #282828 !important;
+
+  /* Button: Secondary */
+  --color-btn-secondary-bg: transparent !important;
+  --color-btn-secondary-hover-bg: #32302f !important;
+  --color-btn-secondary-active-bg: #282828 !important;
+  --color-btn-secondary-border: rgba(255, 255, 255, .13) !important;
+}
+
+/* BASE STRUCTURE
+-------------------------------------------------- */
+
+body:not(:has(.edit)) {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text-primary) !important;
+}
+
+.container {
+  margin-top: 0 !important;
+  padding: var(--spacing-32) var(--spacing-20) 0 !important;
+  max-width: var(--size-container-width) !important;
+}
+
+/* Link (excluding button) */
+a:not(.btn),
+.dark a:not(.btn) {
+  color: inherit !important;
+  text-underline-offset: .125em !important;
+}
+a:not(.btn):hover,
+.dark a:not(.btn):hover,
+a:not(.btn):focus-visible {
+  outline: none !important;
+  color: var(--color-blue) !important;
+}
+
+/* HEADER
+-------------------------------------------------- */
+
+/* Wrapper for logo and title */
+.title-flex {
+  margin-bottom: var(--spacing-32) !important;
+}
+
+/* Center the logo */
+.logo-wrapper {
+  margin: 0 auto !important;
+}
+
+/* Resize the logo */
+.logo {
+  width: var(--size-logo-width) !important;
+  height: var(--size-logo-height) !important;
+}
+
+/* Remove the margin of the logo */
+[dir="ltr"] .logo {
+  margin-right: 0 !important;
+}
+
+/* Remove the title adjacent to the logo */
+.title-flex span {
+  display: none !important;
+}
+
+/* ADMIN BUTTONS
+-------------------------------------------------- */
+
+/* Fix vertical margin of admin buttons on mobile */
+.mb-4:has([data-testid="edit-button"]) {
+  margin-bottom: var(--spacing-32) !important;
+}
+
+.mb-4:has([data-testid="edit-button"]) div {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--spacing-8) !important;
+}
+
+.mb-4:has([data-testid="edit-button"]) div button {
+  margin: 0 !important;
+}
+
+/* Admin button */
+.mb-4:has([data-testid="edit-button"]) .btn-primary {
+  box-shadow: none !important;
+  border: 1px solid var(--color-btn-secondary-border) !important;
+  border-radius: var(--border-radius-400) !important;
+  background-color: var(--color-btn-secondary-bg) !important;
+  padding: var(--spacing-4) var(--spacing-12) !important;
+  color: var(--color-text-heading) !important;
+  font-weight: var(--font-weight-medium) !important;
+  font-size: var(--font-size-100) !important;
+  line-height: var(--font-line-height-200) !important;
+}
+.mb-4:has([data-testid="edit-button"]) .btn-primary:hover,
+.mb-4:has([data-testid="edit-button"]) .btn-primary:focus-visible {
+  background-color: var(--color-btn-secondary-hover-bg) !important;
+}
+.mb-4:has([data-testid="edit-button"]) .btn-primary:active {
+  box-shadow: none !important;
+  background-color: var(--color-btn-secondary-active-bg) !important;
+}
+
+.mb-4:has([data-testid="edit-button"]) .btn-primary svg {
+  display: none !important;
+}
+
+/* INCIDENT BLOCK
+-------------------------------------------------- */
+
+.incident {
+  margin-bottom: var(--spacing-16) !important;
+  box-shadow: none !important;
+  border-radius: var(--border-radius-500) !important;
+  padding: var(--spacing-20) !important;
+  color: var(--color-text-heading) !important;
+}
+.incident.bg-info {
+  border: 1px solid rgba(var(--rgb-color-teal), .23) !important;
+  background-color: rgba(var(--rgb-color-teal), .08) !important;
+}
+.incident.bg-warning {
+  border: 1px solid rgba(var(--rgb-color-orange), .23) !important;
+  background-color: rgba(var(--rgb-color-orange), .08) !important;
+}
+.incident.bg-danger {
+  border: 1px solid rgba(var(--rgb-color-red), .23) !important;
+  background-color: rgba(var(--rgb-color-red), .08) !important;
+}
+.incident.bg-primary {
+  border: 1px solid rgba(var(--rgb-color-green), .23) !important;
+  background-color: rgba(var(--rgb-color-green), .08) !important;
+}
+.incident.bg-light {
+  box-shadow: var(--shadow-filter) !important;
+  border: 1px solid var(--color-border) !important;
+  background-color: var(--color-block-bg) !important;
+}
+.incident.bg-dark {
+  box-shadow: var(--shadow-filter) !important;
+  border: 1px solid var(--color-border) !important;
+  background-color: var(--color-bg) !important;
+}
+
+.incident h4 {
+  font-size: var(--font-size-300) !important;
+}
+
+.incident div {
+  color: var(--color-text-primary) !important;
+}
+
+.date.mt-3 {
+  border-top: 1px solid var(--color-border) !important;
+  padding-top: var(--spacing-20) !important;
+}
+
+/* MAIN STATUS BLOCK
+-------------------------------------------------- */
+
+.overall-status {
+  margin-bottom: var(--spacing-16) !important;
+  box-shadow: none !important;
+  border-radius: var(--border-radius-500) !important;
+  padding: var(--spacing-20) !important;
+  color: var(--color-text-heading) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: var(--font-size-350) !important;
+  line-height: var(--font-line-height-200) !important;
+}
+.overall-status:has(.ok) {
+  border: 1px solid rgba(var(--rgb-color-green), .23) !important;
+  background-color: rgba(var(--rgb-color-green), .08) !important;
+}
+.overall-status:has(.warning) {
+  border: 1px solid rgba(var(--rgb-color-orange), .23) !important;
+  background-color: rgba(var(--rgb-color-orange), .08) !important;
+}
+.overall-status:has(.danger) {
+  border: 1px solid rgba(var(--rgb-color-red), .23) !important;
+  background-color: rgba(var(--rgb-color-red), .08) !important;
+}
+.overall-status:has(.status-maintenance) {
+  border: 1px solid rgba(var(--rgb-color-blue), .23) !important;
+  background-color: rgba(var(--rgb-color-blue), .08) !important;
+}
+
+.overall-status div {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-20) !important;
+}
+
+.overall-status svg {
+  margin-right: 0 !important;
+  width: 1.5em !important;
+  height: 1.5em !important;
+}
+.overall-status:has(.ok) svg {
+  color: var(--color-green) !important;
+}
+.overall-status:has(.warning) svg {
+  color: var(--color-orange) !important;
+}
+.overall-status:has(.danger) svg {
+  color: var(--color-red) !important;
+}
+.overall-status:has(.status-maintenance) svg {
+  color: var(--color-blue) !important;
+}
+
+/* MAINTENANCE BLOCK
+-------------------------------------------------- */
+
+.shadow-box.bg-maintenance {
+  margin: var(--spacing-16) 0 !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(var(--rgb-color-blue), .23) !important;
+  border-radius: var(--border-radius-500) !important;
+  background-color: rgba(var(--rgb-color-blue), .08) !important;
+  padding: var(--spacing-20) !important;
+  color: var(--color-text-heading) !important;
+}
+
+.shadow-box.bg-maintenance .alert-heading {
+  color: var(--color-text-heading) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: var(--font-size-300) !important;
+}
+
+.shadow-box.bg-maintenance .content {
+  color: var(--color-text-primary) !important;
+}
+
+.timeslot {
+  display: flex !important;
+  margin: 0 !important;
+  border-top: 1px solid var(--color-border) !important;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  padding: var(--spacing-20) 0 0 !important;
+  color: var(--color-text-primary) !important;
+  font-size: var(--font-size-50) !important;
+}
+
+/* USER MARKDOWN ELEMENTS
+-------------------------------------------------- */
+
+.alert-heading.p-2 {
+  margin-bottom: var(--spacing-32) !important;
+  padding: 0 !important;
+}
+
+.alert-heading.p-2 p {
+  margin: 0 !important;
+}
+
+/* PAGE DESCRIPTION
+-------------------------------------------------- */
+
+div > .alert-heading.p-2:has(*) {
+  margin-top: var(--spacing-32) !important;
+  box-shadow: var(--shadow-filter) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--border-radius-500) !important;
+  background-color: var(--color-block-bg) !important;
+  padding: var(--spacing-20) !important;
+}
+
+/* MONITOR GROUP
+-------------------------------------------------- */
+
+div:has(> .group-title) {
+  margin-bottom: var(--spacing-32) !important;
+}
+
+/* Monitor group title */
+.group-title {
+  display: flex !important;
+  align-items: center !important;
+  margin-bottom: var(--spacing-16) !important;
+  color: var(--color-text-heading) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  font-size: var(--font-size-350) !important;
+}
+
+/* Monitor elements in the group */
+.shadow-box.monitor-list {
+  margin-top: 0 !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.shadow-box.monitor-list > .monitor-list {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: var(--spacing-16) !important;
+}
+/* Enable 2 columns on wider screens; comment out to disable */
+@media (min-width: 532px) {
+  .shadow-box.monitor-list > .monitor-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* MONITOR ITEM
+-------------------------------------------------- */
+
+.monitor-list .item {
+  box-shadow: var(--shadow-filter) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--border-radius-500) !important;
+  background-color: var(--color-block-bg) !important;
+  padding: var(--spacing-16) var(--spacing-20) !important;
+}
+.monitor-list .item:hover {
+  background-color: var(--color-block-bg) !important;
+}
+
+.monitor-list .item > .row > div {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+}
+
+/* Monitor name and uptime percentage container */
+.info {
+  display: flex !important;
+  align-items: center !important;
+  order: 2 !important;
+  margin-bottom: var(--spacing-8) !important;
+}
+
+/* Monitor name */
+.item-name {
+  padding-left: 0 !important;
+  overflow: hidden !important;
+  color: var(--color-text-heading) !important;
+  font-weight: var(--font-weight-semibold) !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Uptime percentage */
+.badge {
+  all: unset !important;
+  order: 1 !important;
+  margin-left: auto !important;
+  background-color: transparent !important;
+  color: var(--color-text-primary) !important;
+}
+
+/* Monitor tags wrapper */
+.extra-info {
+  flex-wrap: wrap !important;
+  order: 1 !important;
+  gap: var(--spacing-8) !important;
+  margin-top: var(--spacing-4) !important;
+}
+.extra-info:not(:has(div)) {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.extra-info div {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: var(--spacing-8) !important;
+  min-width: 0 !important;
+}
+
+/* Monitor tags */
+.tag-wrapper {
+  align-items: center !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+.tag-wrapper[style*="rgb(75, 85, 99)"] {
+  border: 1px solid rgba(var(--rgb-color-gray), .23) !important;
+  background-color: rgba(var(--rgb-color-gray), .08) !important;
+  color: var(--color-gray) !important;
+}
+.tag-wrapper[style*="rgb(220, 38, 38)"] {
+  border: 1px solid rgba(var(--rgb-color-red), .23) !important;
+  background-color: rgba(var(--rgb-color-red), .08) !important;
+  color: var(--color-red) !important;
+}
+.tag-wrapper[style*="rgb(217, 119, 6)"] {
+  border: 1px solid rgba(var(--rgb-color-orange), .23) !important;
+  background-color: rgba(var(--rgb-color-orange), .08) !important;
+  color: var(--color-orange) !important;
+}
+.tag-wrapper[style*="rgb(5, 150, 105)"] {
+  border: 1px solid rgba(var(--rgb-color-green), .23) !important;
+  background-color: rgba(var(--rgb-color-green), .08) !important;
+  color: var(--color-green) !important;
+}
+.tag-wrapper[style*="rgb(37, 99, 235)"] {
+  border: 1px solid rgba(var(--rgb-color-blue), .23) !important;
+  background-color: rgba(var(--rgb-color-blue), .08) !important;
+  color: var(--color-blue) !important;
+}
+.tag-wrapper[style*="rgb(79, 70, 229)"] {
+  border: 1px solid rgba(var(--rgb-color-indigo), .23) !important;
+  background-color: rgba(var(--rgb-color-indigo), .08) !important;
+  color: var(--color-indigo) !important;
+}
+.tag-wrapper[style*="rgb(124, 58, 237)"] {
+  border: 1px solid rgba(var(--rgb-color-purple), .23) !important;
+  background-color: rgba(var(--rgb-color-purple), .08) !important;
+  color: var(--color-purple) !important;
+}
+.tag-wrapper[style*="rgb(219, 39, 119)"] {
+  border: 1px solid rgba(var(--rgb-color-pink), .23) !important;
+  background-color: rgba(var(--rgb-color-pink), .08) !important;
+  color: var(--color-pink) !important;
+}
+
+/* Wrapper for the uptime bars home and uptime time */
+.wrap {
+  padding: 0 !important;
+}
+
+/* Uptime bars home */
+.hp-bar-big {
+  display: flex !important;
+  margin-bottom: 6px !important;
+  padding: 0 !important;
+}
+.mobile .hp-bar-big {
+  padding-bottom: 0 !important;
+}
+
+/* Uptime bar in the uptime bars home */
+.hp-bar-big .beat-hover-area .beat {
+  border-radius: 0 !important;
+  background-color: var(--color-green) !important;
+  width: 100% !important;
+  height: var(--size-uptime-bar-height) !important;
+}
+.hp-bar-big .beat-hover-area {
+  flex: 1 !important;
+  padding: 0 1px 0 0 !important;
+}
+.hp-bar-big .beat-hover-area:not(.empty):hover,
+.hp-bar-big .beat-hover-area:not(.empty):focus-visible {
+  transform: none !important;
+  opacity: .7 !important;
+  outline: none !important;
+}
+.hp-bar-big .beat-hover-area:first-of-type .beat {
+  border-top-left-radius: var(--border-radius-200) !important;
+  border-bottom-left-radius: var(--border-radius-200) !important;
+}
+.hp-bar-big .beat-hover-area:last-of-type .beat {
+  margin: 0 !important;
+  border-top-right-radius: var(--border-radius-200) !important;
+  border-bottom-right-radius: var(--border-radius-200) !important;
+  padding: 0 !important;
+}
+.hp-bar-big .beat-hover-area .beat.empty {
+  background-color: var(--color-uptime-bar-empty-bg) !important;
+}
+.hp-bar-big .beat-hover-area .beat.down {
+  background-color: var(--color-red) !important;
+}
+.hp-bar-big .beat-hover-area .beat.pending {
+  background-color: var(--color-orange) !important;
+}
+.hp-bar-big .beat-hover-area .beat.maintenance {
+  background-color: var(--color-blue) !important;
+}
+
+/* Uptime time (below uptime bars) */
+.word {
+  color: var(--color-text-primary) !important;
+}
+
+/* FOOTER
+-------------------------------------------------- */
+
+/* User markdown, Uptime Kuma branding, refresh timer */
+footer {
+  margin: var(--spacing-32) 0 !important;
+  color: var(--color-text-secondary) !important;
+}
+
+/* Extra spacing if the user footer has anything */
+footer .alert-heading.p-2:has(*) {
+  margin-bottom: var(--spacing-16) !important;
+}
+
+/* Refresh timer */
+/* Remove or comment "display: none" to restore visibility */
+.refresh-info {
+  display: none !important;
+  opacity: 1 !important;
+  margin-bottom: 0 !important;
+}
+
+/* EDIT WINDOW
+-------------------------------------------------- */
+
+.container:has(.edit) {
+  max-width: var(--size-edit-container-width) !important;
+}
+
+/* Input field for the monitor group name */
+.edit .group-title span {
+  padding: var(--spacing-4) var(--spacing-8) !important;
+}
+
+/* Input field for page description and footer */
+.edit h4[contenteditable="true"] {
+  padding: var(--spacing-8) var(--spacing-12) !important;
+  color: var(--color-text-heading) !important;
+}
+
+/* OVERLAYS
+-------------------------------------------------- */
+
+/* Uptime bar hover tooltip */
+.tooltip-wrapper .tooltip-content {
+  box-shadow: var(--shadow-filter) !important;
+  border-color: var(--color-border) !important;
+  background-color: var(--color-tooltip-bg) !important;
+  text-align: start !important;
+}
+.tooltip-wrapper .tooltip-content::before {
+  display: none !important;
+}
+
+.tooltip-wrapper .tooltip-content .tooltip-status {
+  font-size: var(--font-size-100) !important;
+}
+.tooltip-wrapper .tooltip-content .tooltip-status.status-up {
+  color: var(--color-green) !important;
+}
+.tooltip-wrapper .tooltip-content .tooltip-status.status-pending {
+  color: var(--color-orange) !important;
+}
+.tooltip-wrapper .tooltip-content .tooltip-status.status-down {
+  color: var(--color-red) !important;
+}
+.tooltip-wrapper .tooltip-content .tooltip-status.status-maintenance {
+  color: var(--color-blue) !important;
+}
+
+.tooltip-wrapper .tooltip-content .tooltip-time {
+  margin-bottom: 0 !important;
+  color: var(--color-text-primary) !important;
+  font-size: var(--font-size-50) !important;
+}
+
+.tooltip-wrapper .tooltip-arrow {
+  display: none !important;
+}
+
+/* GRUVBOX DARK STATUS COLORS (blog-matched, overrides base for .dark) */
+.dark {
+  --color-gray: #a89984 !important;
+  --color-red: #fb4934 !important;
+  --color-orange: #fe8019 !important;
+  --color-teal: #8ec07c !important;
+  --color-blue: #83a598 !important;
+  --color-green: #8ec07c !important;
+  --color-indigo: #83a598 !important;
+  --color-purple: #d3869b !important;
+  --color-pink: #d3869b !important;
+  --rgb-color-gray: 168, 153, 132 !important;
+  --rgb-color-red: 251, 73, 52 !important;
+  --rgb-color-orange: 254, 128, 25 !important;
+  --rgb-color-teal: 142, 192, 124 !important;
+  --rgb-color-blue: 131, 165, 152 !important;
+  --rgb-color-green: 142, 192, 124 !important;
+  --rgb-color-indigo: 131, 165, 152 !important;
+  --rgb-color-purple: 211, 134, 155 !important;
+  --rgb-color-pink: 211, 134, 155 !important;
+}

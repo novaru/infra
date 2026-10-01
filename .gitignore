@@ -1,6 +1,5 @@
 .env
 *.env
-.env.example
 # runtime data (bind mounts) - never commit
 services/forgejo/pg-data/
 services/forgejo/forgejo-data/

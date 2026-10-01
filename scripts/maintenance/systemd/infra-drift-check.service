@@ -1,0 +1,11 @@
+[Unit]
+Description=Read-only infra drift check (repo vs live host state)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=ubuntu
+ExecStart=/home/ubuntu/infra/scripts/maintenance/drift-check.sh
+StandardOutput=journal
+StandardError=journal

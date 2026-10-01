@@ -22,3 +22,17 @@ scrape_configs:
         labels:
           job: nginx
           __path__: /var/log/nginx/*.log
+
+  - job_name: fail2ban
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: fail2ban
+          __path__: /var/log/fail2ban.log
+
+  - job_name: crowdsec
+    static_configs:
+      - targets: [localhost]
+        labels:
+          job: crowdsec
+          __path__: /var/log/crowdsec.log

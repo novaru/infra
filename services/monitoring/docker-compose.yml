@@ -10,6 +10,8 @@ services:
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus-data:/prometheus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "127.0.0.1:9090:9090"
     deploy:
@@ -90,6 +92,8 @@ services:
       - ./promtail/promtail-config.yml:/etc/promtail/promtail-config.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/log/fail2ban.log:/var/log/fail2ban.log:ro
+      - /var/log/crowdsec.log:/var/log/crowdsec.log:ro
       - /var/log/nginx:/var/log/nginx:ro
     deploy:
       resources:
